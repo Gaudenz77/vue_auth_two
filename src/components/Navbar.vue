@@ -3,7 +3,28 @@
     <div class="flex-1">
       <router-link to="/" class="btn btn-ghost text-xl">Auth App</router-link>
     </div>
-    <div class="flex-none gap-2">
+
+    <!-- Mobile Menu (for smaller screens) -->
+    <div class="flex-none lg:hidden">
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn m-1">Menu</label>
+        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+          <li><router-link to="/">Home</router-link></li>
+          <li><router-link to="/mylibrary">Library</router-link></li>
+          <li><router-link to="/myprofile">Profile</router-link></li>
+          <li v-if="auth.isAuthenticated"><a @click="auth.logout">Logout</a></li>
+          <li v-else><router-link to="/login">Login</router-link></li>
+          <li v-else><router-link to="/register">Register</router-link></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Navbar Links for Larger Screens -->
+    <div class="hidden lg:flex flex-1 justify-center gap-4">
+      <router-link to="/" class="nav-link text-xl">Home</router-link>
+      <router-link to="/mylibrary" class="nav-link text-xl">Library</router-link>
+      <router-link to="/myprofile" class="nav-link text-xl">Profile</router-link>
+
       <!-- Theme Toggle Button -->
       <div class="dropdown dropdown-end">
         <label tabindex="0" class="btn m-1">Change Theme</label>
@@ -13,7 +34,7 @@
           </li>
         </ul>
       </div>
-      
+
       <!-- Authenticated User Dropdown -->
       <div v-if="auth.isAuthenticated" class="dropdown dropdown-end">
         <label tabindex="0" class="btn m-1">{{ auth.user?.email }}</label>
@@ -54,5 +75,14 @@ document.documentElement.setAttribute('data-theme', currentTheme.value)
 </script>
 
 <style scoped>
-/* Add any specific styling for the theme toggle button */
+/* Adjust navbar links to make the layout look better */
+.nav-link {
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #4f46e5; /* Blue color on hover */
+}
+
+/* Optional: Additional styling for the theme toggle button */
 </style>
