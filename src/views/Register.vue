@@ -2,15 +2,23 @@
 import { ref } from 'vue'
 import { useAuthStore } from '../stores/auth'
 import { useRouter } from 'vue-router'
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 
 const auth = useAuthStore()
 const router = useRouter()
 const email = ref('')
 const password = ref('')
+const username = ref('')
 
-const handleRegister = () => {
-  auth.register(email.value, password.value)
-  router.push('/')
+const handleRegister = async () => {
+  const firebaseAuth = getAuth()
+  try {
+    const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email.value, password.value)
+    await updateProfile(userCredential.user, { displayName: username.value })
+    router.push('/')
+  } catch (error) {
+    console.error('Registration error:', error)
+  }
 }
 </script>
 
@@ -22,6 +30,12 @@ const handleRegister = () => {
       </div>
       <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
         <div class="card-body">
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Username</span>
+            </label>
+            <input type="text" v-model="username" placeholder="username" class="input input-bordered" required />
+          </div>
           <div class="form-control">
             <label class="label">
               <span class="label-text">Email</span>
