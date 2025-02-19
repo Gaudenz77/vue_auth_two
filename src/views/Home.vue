@@ -13,7 +13,7 @@ const auth = useAuthStore()
           Welcome, {{ auth.user?.email }}!
         </h1>
         <h1 class="text-5xl font-bold" v-else>
-          Welcome to Auth App
+          Welcome you to Auth App
         </h1>
         <p class="py-6" v-if="!auth.isAuthenticated">
           Please login or register to continue.
